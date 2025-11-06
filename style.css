@@ -114,7 +114,7 @@ body {
 .bread-animation,
 .salt-animation {
     position: absolute;
-    bottom: 120px;
+    bottom: 180px; /* Positioned above the recipients */
     width: 80px;
     height: 100px;
     display: flex;
@@ -123,7 +123,7 @@ body {
     justify-content: flex-end;
 }
 
-/* Position each animation above its controller */
+/* Position each animation above its recipient */
 .wine-animation { left: 12.5%; transform: translateX(-50%); }
 .water-animation { left: 29.5%; transform: translateX(-50%); }
 .lamp-animation { left: 46.5%; transform: translateX(-50%); }
@@ -334,6 +334,131 @@ body {
     }
 }
 
+/* Recipients Layer */
+.recipients-layer {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 0 5%;
+    z-index: 5;
+}
+
+.recipient-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.recipient-bowl {
+    width: 70px;
+    height: 35px;
+    background: linear-gradient(135deg, #8B4513, #A0522D);
+    border-radius: 50% 50% 0 0;
+    border: 2px solid #DAA520;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.recipient-bowl::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background: linear-gradient(135deg, #CD853F, #8B4513);
+    border-radius: 50% 50% 0 0;
+    border: 1px solid #DAA520;
+}
+
+.recipient-bowl-small {
+    width: 50px;
+    height: 25px;
+    background: linear-gradient(135deg, #8B4513, #A0522D);
+    border-radius: 50% 50% 0 0;
+    border: 2px solid #DAA520;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.recipient-bowl-small::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    background: linear-gradient(135deg, #CD853F, #8B4513);
+    border-radius: 50% 50% 0 0;
+    border: 1px solid #DAA520;
+}
+
+.recipient-lamp {
+    width: 40px;
+    height: 50px;
+    background: linear-gradient(135deg, #8B4513, #654321);
+    border-radius: 8px 8px 0 0;
+    border: 2px solid #DAA520;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.recipient-lamp::before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 40px;
+    top: -35px;
+    left: 5px;
+    background: linear-gradient(135deg, #b8860b, #daa520);
+    border-radius: 50% 50% 0 0;
+    border: 1px solid #8B4513;
+}
+
+.recipient-incense {
+    width: 30px;
+    height: 40px;
+    background: linear-gradient(135deg, #696969, #808080);
+    border-radius: 5px;
+    border: 2px solid #DAA520;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.recipient-incense::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background: linear-gradient(135deg, #A9A9A9, #696969);
+    border-radius: 2px;
+}
+
+.recipient-plate {
+    width: 60px;
+    height: 30px;
+    background: linear-gradient(135deg, #F5F5DC, #DEB887);
+    border-radius: 50% 50% 0 0;
+    border: 2px solid #DAA520;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.recipient-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8em;
+    color: #d4af37;
+    text-align: center;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
 /* Controls Panel */
 .controls-panel {
     background: rgba(90, 70, 40, 0.8);
@@ -425,51 +550,24 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-}
-
-.controller-recipient {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    padding: 10px;
-    background: rgba(60, 45, 25, 0.5);
-    border-radius: 8px;
-    border: 1px solid #8B4513;
-    min-width: 80px;
-    min-height: 80px;
-    justify-content: center;
-}
-
-.recipient-icon {
-    font-size: 24px;
-    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
-}
-
-.recipient-name {
-    font-size: 0.75em;
-    color: #c8b090;
-    text-align: center;
-    font-style: italic;
 }
 
 .offering-btn {
     background: linear-gradient(135deg, #8B4513, #a0522d);
     color: #e8d8b8;
     border: 2px solid #d4af37;
-    padding: 12px 8px;
-    border-radius: 6px;
+    padding: 15px 10px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     font-family: 'Crimson Text', serif;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     width: 100%;
-    min-height: 60px;
+    min-height: 80px;
     justify-content: center;
 }
 
@@ -484,6 +582,11 @@ body {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
+}
+
+.offering-icon {
+    font-size: 24px;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
 }
 
 .offering-name {
@@ -668,17 +771,49 @@ body {
     .incense-animation,
     .bread-animation,
     .salt-animation {
-        bottom: 100px;
+        bottom: 150px;
         width: 60px;
         height: 80px;
     }
     
-    .wine-animation { left: 16.5%; }
-    .water-animation { left: 33%; }
-    .lamp-animation { left: 50%; }
-    .incense-animation { left: 67%; }
-    .bread-animation { left: 83.5%; }
+    .recipients-layer {
+        bottom: 60px;
+    }
+    
+    .recipient-bowl {
+        width: 50px;
+        height: 25px;
+    }
+    
+    .recipient-bowl-small {
+        width: 40px;
+        height: 20px;
+    }
+    
+    .recipient-lamp {
+        width: 30px;
+        height: 40px;
+    }
+    
+    .recipient-lamp::before {
+        width: 20px;
+        height: 30px;
+        top: -25px;
+        left: 5px;
+    }
+    
+    .recipient-incense {
+        width: 25px;
+        height: 30px;
+    }
+    
+    .recipient-plate {
+        width: 45px;
+        height: 22px;
+    }
+    
     .salt-animation { display: none; } /* Hide salt on very small screens */
+    .salt-recipient { display: none; } /* Hide salt recipient on very small screens */
 }
 
 /* Image Loading Optimization */
