@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Lararium</title>
+    <title>Digital Lararium - Roman Household Shrine</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
+        <header class="header">
+            <h1>Digital Lararium</h1>
+            <p class="subtitle">Honor the Lares of your household</p>
+        </header>
+
         <div class="lararium">
             <!-- Background Aedicula -->
             <img src="aedicula.png" alt="Roman Lararium" class="aedicula">
@@ -15,84 +21,110 @@
             <!-- Interactive Elements -->
             <div class="patera" id="offering-bowl">
                 <div class="liquid" id="liquid"></div>
+                <div class="pour-stream" id="pour-stream"></div>
             </div>
             
             <div class="lucerna" id="lamp">
                 <div class="flame" id="flame"></div>
             </div>
             
-            <div class="incense-smoke" id="smoke"></div>
-            <div class="fruit-offering" id="fruit"></div>
-            <div class="salt-offering" id="salt"></div>
+            <div class="incense-smoke" id="smoke">
+                <img src="smoke.png" alt="Incense Smoke">
+            </div>
+            
+            <div class="bread-offering" id="bread">
+                <div class="bread-icon">🥖</div>
+            </div>
+            
+            <div class="salt-offering" id="salt">
+                <div class="salt-pile"></div>
+            </div>
         </div>
         
         <!-- Control Panel -->
         <div class="controls">
-            <div class="currency-display">
-                <span class="sesterces">Sesterces: <span id="balance">50</span> HS</span>
-                <button id="buy-btn" class="buy-btn">Buy More Sesterces</button>
+            <div class="currency-section">
+                <div class="currency-info">
+                    <h3>Sacred Sesterces</h3>
+                    <p class="currency-explanation">Ancient Roman currency for digital offerings</p>
+                </div>
+                <div class="currency-display">
+                    <span class="sesterces"><span id="balance">50</span> HS</span>
+                    <button id="buy-btn" class="buy-btn">Acquire More</button>
+                </div>
             </div>
             
-            <div class="offerings-grid">
-                <button class="offering-btn" data-type="wine" data-cost="10">
-                    <span class="emoji">🍷</span>
-                    <span class="name">Wine</span>
-                    <span class="cost">10 HS</span>
-                </button>
-                
-                <button class="offering-btn" data-type="water" data-cost="5">
-                    <span class="emoji">💧</span>
-                    <span class="name">Water</span>
-                    <span class="cost">5 HS</span>
-                </button>
-                
-                <button class="offering-btn" data-type="light" data-cost="15">
-                    <span class="emoji">🕯️</span>
-                    <span class="name">Light Lamp</span>
-                    <span class="cost">15 HS</span>
-                </button>
-                
-                <button class="offering-btn" data-type="incense" data-cost="20">
-                    <span class="emoji">🌿</span>
-                    <span class="name">Incense</span>
-                    <span class="cost">20 HS</span>
-                </button>
-                
-                <button class="offering-btn" data-type="fruit" data-cost="12">
-                    <span class="emoji">🍎</span>
-                    <span class="name">Fruit</span>
-                    <span class="cost">12 HS</span>
-                </button>
-                
-                <button class="offering-btn" data-type="salt" data-cost="8">
-                    <span class="emoji">🧂</span>
-                    <span class="name">Salt</span>
-                    <span class="cost">8 HS</span>
-                </button>
+            <div class="offerings-section">
+                <h3>Make Offerings</h3>
+                <div class="offerings-grid">
+                    <button class="offering-btn" data-type="wine" data-cost="10">
+                        <span class="offering-icon">🍷</span>
+                        <span class="offering-name">Vinum</span>
+                        <span class="offering-cost">10 HS</span>
+                    </button>
+                    
+                    <button class="offering-btn" data-type="water" data-cost="5">
+                        <span class="offering-icon">💧</span>
+                        <span class="offering-name">Aqua</span>
+                        <span class="offering-cost">5 HS</span>
+                    </button>
+                    
+                    <button class="offering-btn" data-type="light" data-cost="15">
+                        <span class="offering-icon">🪔</span>
+                        <span class="offering-name">Ignis</span>
+                        <span class="offering-cost">15 HS</span>
+                    </button>
+                    
+                    <button class="offering-btn" data-type="incense" data-cost="20">
+                        <span class="offering-icon">🪷</span>
+                        <span class="offering-name">Tus</span>
+                        <span class="offering-cost">20 HS</span>
+                    </button>
+                    
+                    <button class="offering-btn" data-type="bread" data-cost="12">
+                        <span class="offering-icon">🥖</span>
+                        <span class="offering-name">Panis</span>
+                        <span class="offering-cost">12 HS</span>
+                    </button>
+                    
+                    <button class="offering-btn" data-type="salt" data-cost="8">
+                        <span class="offering-icon">⛰️</span>
+                        <span class="offering-name">Sal</span>
+                        <span class="offering-cost">8 HS</span>
+                    </button>
+                </div>
             </div>
         </div>
+
+        <footer class="footer">
+            <p>May the Lares protect this household</p>
+        </footer>
     </div>
 
     <!-- Buy Modal -->
     <div id="buy-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h3>Purchase Sesterces</h3>
+            <h3>Acquire Sacred Sesterces</h3>
+            <p class="modal-description">Purchase ancient Roman currency for your digital devotions</p>
             <div class="currency-packs">
                 <div class="pack" data-amount="100" data-price="1.99">
                     <h4>100 HS</h4>
-                    <p>$1.99</p>
-                    <button class="pack-btn">Purchase</button>
+                    <p class="pack-price">$1.99</p>
+                    <p class="pack-desc">Modest offering</p>
+                    <button class="pack-btn">Acquire</button>
                 </div>
                 <div class="pack" data-amount="300" data-price="4.99">
                     <h4>300 HS</h4>
-                    <p>$4.99</p>
-                    <button class="pack-btn">Purchase</button>
+                    <p class="pack-price">$4.99</p>
+                    <p class="pack-desc">Generous devotion</p>
+                    <button class="pack-btn">Acquire</button>
                 </div>
                 <div class="pack" data-amount="500" data-price="7.99">
                     <h4>500 HS</h4>
-                    <p>$7.99</p>
-                    <button class="pack-btn">Purchase</button>
+                    <p class="pack-price">$7.99</p>
+                    <p class="pack-desc">Abundant piety</p>
+                    <button class="pack-btn">Acquire</button>
                 </div>
             </div>
         </div>
