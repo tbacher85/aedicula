@@ -1,14 +1,9 @@
-// Enhanced Game State with Ritual Tracking
+// Game State
 let sesterces = parseInt(localStorage.getItem('sesterces')) || 50;
 let lampLit = false;
-let ritualProgress = JSON.parse(localStorage.getItem('ritualProgress')) || {
-    offeringsMade: 0,
-    lastRitualDate: null,
-    favoriteOffering: null
-};
 
-// Comprehensive Latin Ritual Database
-const ritualDatabase = [
+// Latin Quotes Database
+const latinQuotes = [
     {
         latin: "Laribus familiaribus sacrum",
         english: "Sacred to the family Lares",
@@ -68,66 +63,8 @@ const ritualDatabase = [
         english: "Salt, symbol of friendship",
         context: "Salt offering to cement bonds of friendship",
         offeringType: "salt"
-    },
-    {
-        latin: "Sic faciendum est",
-        english: "Thus it must be done",
-        context: "Traditional phrase emphasizing proper ritual observance",
-        offeringType: "general"
-    },
-    {
-        latin: "Pax deorum hoc rite facta",
-        english: "The peace of the gods, made by this rite",
-        context: "Declaration after completing a proper ritual",
-        offeringType: "general"
-    },
-    {
-        latin: "Bona precor, Lar familiaris",
-        english: "I pray for good things, household Lar",
-        context: "General prayer for household blessings",
-        offeringType: "general"
-    },
-    {
-        latin: "Hoc rite peracto",
-        english: "This rite having been duly performed",
-        context: "Formula marking the completion of a ritual sequence",
-        offeringType: "general"
     }
 ];
-
-// Offering-specific educational content
-const offeringEducation = {
-    wine: {
-        title: "Vinum - Wine Offering",
-        description: "Wine was the most common liquid offering in Roman household worship. It was usually poured unmixed as a libation to the Lares.",
-        significance: "Symbolized joy, celebration, and the blood of life"
-    },
-    water: {
-        title: "Aqua - Water Offering", 
-        description: "Pure water represented cleansing and purification. It was offered to seek spiritual purity for the household.",
-        significance: "Represented purity, cleansing, and the source of life"
-    },
-    light: {
-        title: "Ignis - Sacred Flame",
-        description: "The eternal flame in the lucerna (oil lamp) symbolized the continuous presence and protection of the Lares.",
-        significance: "Light against darkness, divine presence, protection"
-    },
-    incense: {
-        title: "Tus - Incense Offering",
-        description: "Incense smoke carried prayers to the gods. Frankincense was the most prized incense in Roman rituals.",
-        significance: "Prayers rising to heaven, purification through scent"
-    },
-    bread: {
-        title: "Panis - Bread Offering",
-        description: "Bread represented sustenance and hospitality. It was often the first fruits offering to household gods.",
-        significance: "Sustenance, hospitality, first fruits offering"
-    },
-    salt: {
-        title: "Sal - Salt Offering",
-        description: "Salt was precious in antiquity and symbolized preservation, purity, and the binding of agreements.",
-        significance: "Preservation, purity, friendship bonds"
-    }
-};
 
 // DOM Elements
 const balanceElement = document.getElementById('balance');
@@ -136,6 +73,8 @@ const liquidElement = document.getElementById('liquid');
 const pourStreamElement = document.getElementById('pour-stream');
 const flameElement = document.getElementById('flame');
 const smokeElement = document.getElementById('smoke');
+const breadElement = document.getElementById('bread');
+const saltElement = document.getElementById('salt');
 const buyButton = document.getElementById('buy-btn');
 const modal = document.getElementById('buy-modal');
 const closeModal = document.querySelector('.close');
@@ -148,7 +87,6 @@ const englishText = document.getElementById('english-text');
 updateBalance();
 checkDailyBonus();
 preloadImage();
-displayWelcomeMessage();
 
 // Image Loading Optimization
 function preloadImage() {
@@ -164,21 +102,18 @@ function preloadImage() {
     }
 }
 
-// Enhanced Quote System with Educational Content
+// Quote System
 function displayRitualQuote(offeringType = 'general') {
-    // Filter quotes by offering type or get general quotes
-    const relevantQuotes = ritualDatabase.filter(quote => 
+    const relevantQuotes = latinQuotes.filter(quote => 
         quote.offeringType === offeringType || quote.offeringType === 'general'
     );
     
     const randomIndex = Math.floor(Math.random() * relevantQuotes.length);
     const ritual = relevantQuotes[randomIndex];
     
-    // Update quote display
     latinText.textContent = ritual.latin;
     englishText.textContent = ritual.english;
     
-    // Add context if available
     let contextElement = document.querySelector('.ritual-context');
     if (!contextElement) {
         contextElement = document.createElement('div');
@@ -187,32 +122,11 @@ function displayRitualQuote(offeringType = 'general') {
     }
     contextElement.textContent = ritual.context;
     
-    // Animate the quote display
     const quoteDisplay = document.getElementById('quote-display');
     quoteDisplay.style.opacity = '0';
     setTimeout(() => {
         quoteDisplay.style.opacity = '1';
     }, 300);
-}
-
-// Display educational information about the offering
-function showOfferingEducation(offeringType) {
-    const education = offeringEducation[offeringType];
-    if (education) {
-        const message = `${education.title}\n\n${education.description}\n\nSignificance: ${education.significance}`;
-        showMessage(message, 5000); // Longer display for educational content
-    }
-}
-
-// Welcome message for first-time users
-function displayWelcomeMessage() {
-    const firstVisit = !localStorage.getItem('hasVisitedBefore');
-    if (firstVisit) {
-        setTimeout(() => {
-            showMessage('Welcome to your Digital Lararium! Make offerings to honor the household Lares and learn ancient Roman rituals.', 6000);
-            localStorage.setItem('hasVisitedBefore', 'true');
-        }, 1000);
-    }
 }
 
 // Offering Buttons
@@ -225,29 +139,18 @@ offeringButtons.forEach(button => {
     });
 });
 
-// Enhanced Make Offering with Educational Content
+// Make Offering
 function makeOffering(type, cost) {
     if (sesterces < cost) {
-        showMessage('Insufficient sacred sesterces. Acquire more to continue your devotions to the Lares.');
+        showMessage('Insufficient sesterces for this offering. Acquire more to continue your devotions.');
         return;
     }
     
-    // Deduct cost
     sesterces -= cost;
     updateBalance();
     saveGame();
-    
-    // Update ritual progress
-    ritualProgress.offeringsMade++;
-    ritualProgress.lastRitualDate = new Date().toISOString();
-    ritualProgress.favoriteOffering = type;
-    localStorage.setItem('ritualProgress', JSON.stringify(ritualProgress));
-    
-    // Display ritual quote and educational content
     displayRitualQuote(type);
-    showOfferingEducation(type);
     
-    // Handle different offering types
     switch(type) {
         case 'wine':
             offerWine();
@@ -269,7 +172,6 @@ function makeOffering(type, cost) {
             break;
     }
     
-    // Visual feedback
     const button = document.querySelector(`[data-type="${type}"]`);
     button.style.transform = 'scale(0.95)';
     setTimeout(() => {
@@ -277,7 +179,7 @@ function makeOffering(type, cost) {
     }, 200);
 }
 
-// Offering Animations (same as before, but with enhanced messages)
+// Offering Animations
 function offerWine() {
     resetAnimations();
     
@@ -300,6 +202,8 @@ function offerWine() {
     setTimeout(() => {
         liquidElement.style.height = '0%';
     }, 8000);
+    
+    showMessage('Wine offered to the Lares. May your household know joy.');
 }
 
 function offerWater() {
@@ -324,19 +228,23 @@ function offerWater() {
     setTimeout(() => {
         liquidElement.style.height = '0%';
     }, 6000);
+    
+    showMessage('Pure water offered for cleansing and purification.');
 }
 
 function lightLamp() {
     if (!lampLit) {
         flameElement.classList.add('lit');
         lampLit = true;
+        showMessage('The sacred flame is lit. May it illuminate your household.');
         
-        // Lamp stays lit for 1 hour
         setTimeout(() => {
             flameElement.classList.remove('lit');
             lampLit = false;
-            showMessage('The sacred flame has naturally faded. You may relight it to continue the Lar\'s protection.');
+            showMessage('The sacred flame has faded. Relight to continue its protection.');
         }, 3600000);
+    } else {
+        showMessage('The sacred flame burns brighter with your continued devotion.');
     }
 }
 
@@ -345,17 +253,35 @@ function offerIncense() {
     void smokeElement.offsetWidth;
     smokeElement.classList.add('active');
     
+    showMessage('The sweet smoke of incense rises to the heavens.');
+    
     setTimeout(() => {
         smokeElement.classList.remove('active');
     }, 5000);
 }
 
 function offerBread() {
-    // Bread offering is visual only through the quote system
+    breadElement.classList.remove('active');
+    void breadElement.offsetWidth;
+    breadElement.classList.add('active');
+    
+    showMessage('Bread offering made. May your household never know hunger.');
+    
+    setTimeout(() => {
+        breadElement.classList.remove('active');
+    }, 3000);
 }
 
 function offerSalt() {
-    // Salt offering is visual only through the quote system
+    saltElement.classList.remove('active');
+    void saltElement.offsetWidth;
+    saltElement.classList.add('active');
+    
+    showMessage('Salt offered for preservation and purity.');
+    
+    setTimeout(() => {
+        saltElement.classList.remove('active');
+    }, 3000);
 }
 
 function resetAnimations() {
@@ -370,7 +296,6 @@ function resetAnimations() {
 function updateBalance() {
     balanceElement.textContent = sesterces;
     
-    // Update button states
     offeringButtons.forEach(button => {
         const cost = parseInt(button.dataset.cost);
         button.disabled = sesterces < cost;
@@ -381,8 +306,8 @@ function saveGame() {
     localStorage.setItem('sesterces', sesterces.toString());
 }
 
-// Enhanced Message System
-function showMessage(message, duration = 3000) {
+// Message System
+function showMessage(message) {
     let messageEl = document.getElementById('message-toast');
     if (!messageEl) {
         messageEl = document.createElement('div');
@@ -392,20 +317,18 @@ function showMessage(message, duration = 3000) {
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(60, 45, 25, 0.95);
+            background: rgba(90, 70, 40, 0.95);
             color: #e8d8b8;
-            padding: 20px 30px;
-            border-radius: 10px;
+            padding: 15px 25px;
+            border-radius: 8px;
             border: 2px solid #d4af37;
             font-family: 'Crimson Text', serif;
             z-index: 1001;
             text-align: center;
-            max-width: 90%;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+            max-width: 80%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             opacity: 0;
-            transition: opacity 0.4s;
-            line-height: 1.5;
-            white-space: pre-line;
+            transition: opacity 0.3s;
         `;
         document.body.appendChild(messageEl);
     }
@@ -415,7 +338,7 @@ function showMessage(message, duration = 3000) {
     
     setTimeout(() => {
         messageEl.style.opacity = '0';
-    }, duration);
+    }, 3000);
 }
 
 // Modal Functions
@@ -440,17 +363,17 @@ packButtons.forEach(button => {
         const amount = parseInt(pack.dataset.amount);
         const price = parseFloat(pack.dataset.price);
         
-        if (confirm(`Acquire ${amount} sacred sesterces for $${price} to continue your devotions?`)) {
+        if (confirm(`Acquire ${amount} sacred sesterces for $${price}?`)) {
             sesterces += amount;
             updateBalance();
             saveGame();
             modal.style.display = 'none';
-            showMessage(`${amount} sacred sesterces acquired! May your continued offerings please the household Lares.`);
+            showMessage(`${amount} sacred sesterces acquired! May your devotions be plentiful.`);
         }
     });
 });
 
-// Daily Bonus with ritual encouragement
+// Daily Bonus
 function checkDailyBonus() {
     const lastVisit = localStorage.getItem('lastVisit');
     const today = new Date().toDateString();
@@ -462,16 +385,10 @@ function checkDailyBonus() {
         localStorage.setItem('lastVisit', today);
         
         if (lastVisit) {
-            const encouragements = [
-                "Daily devotion bonus: 10 sacred sesterces! The Lares appreciate regular worship.",
-                "10 sesterces for your daily ritual. Consistency in devotion pleases the household gods.",
-                "Your daily offering capacity has been renewed. Honor the Lares regularly."
-            ];
-            const randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
-            showMessage(randomEncouragement);
+            showMessage('Daily devotion bonus: 10 sacred sesterces acquired!');
         }
     }
 }
 
-// Display initial ritual quote
+// Display initial quote
 displayRitualQuote();
