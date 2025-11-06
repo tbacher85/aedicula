@@ -1,7 +1,6 @@
 // Game State
 let sesterces = parseInt(localStorage.getItem('sesterces')) || 50;
 let lampLit = false;
-let soundEnabled = false;
 
 // Latin Quotes Database
 const latinQuotes = [
@@ -50,8 +49,6 @@ const buyButton = document.getElementById('buy-btn');
 const modal = document.getElementById('buy-modal');
 const closeModal = document.querySelector('.close');
 const packButtons = document.querySelectorAll('.pack-btn');
-const soundToggle = document.getElementById('sound-toggle');
-const ambientSound = document.getElementById('ambient-sound');
 const shrineImage = document.getElementById('shrine-image');
 const latinText = document.getElementById('latin-text');
 const englishText = document.getElementById('english-text');
@@ -59,7 +56,6 @@ const englishText = document.getElementById('english-text');
 // Initialize
 updateBalance();
 checkDailyBonus();
-loadSoundPreference();
 preloadImage();
 
 // Image Loading Optimization
@@ -73,37 +69,6 @@ function preloadImage() {
         shrineImage.addEventListener('error', function() {
             console.log('Error loading shrine image');
         });
-    }
-}
-
-// Sound System
-function loadSoundPreference() {
-    const savedSound = localStorage.getItem('soundEnabled');
-    soundEnabled = savedSound === 'true';
-    updateSoundButton();
-}
-
-function toggleSound() {
-    soundEnabled = !soundEnabled;
-    localStorage.setItem('soundEnabled', soundEnabled);
-    updateSoundButton();
-    
-    if (soundEnabled) {
-        ambientSound.play().catch(e => {
-            console.log('Audio play failed:', e);
-        });
-    } else {
-        ambientSound.pause();
-    }
-}
-
-function updateSoundButton() {
-    if (soundEnabled) {
-        soundToggle.textContent = '🔊 Ambient Sound';
-        soundToggle.classList.add('active');
-    } else {
-        soundToggle.textContent = '🔇 Ambient Sound';
-        soundToggle.classList.remove('active');
     }
 }
 
@@ -373,9 +338,6 @@ function checkDailyBonus() {
         }
     }
 }
-
-// Event Listeners
-soundToggle.addEventListener('click', toggleSound);
 
 // Display initial quote
 displayRandomQuote();
