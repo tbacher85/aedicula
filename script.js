@@ -1,6 +1,43 @@
 // Game State
 let sesterces = parseInt(localStorage.getItem('sesterces')) || 50;
 let lampLit = false;
+let soundEnabled = false;
+
+// Latin Quotes Database
+const latinQuotes = [
+    {
+        latin: "Laribus familiaribus sacrum",
+        english: "Sacred to the family Lares"
+    },
+    {
+        latin: "Di penates, hanc domum custonite",
+        english: "Household gods, protect this home"
+    },
+    {
+        latin: "Lar, propitius esto",
+        english: "Lar, be favorable"
+    },
+    {
+        latin: "Dis manibus sacrum",
+        english: "Sacred to the divine spirits"
+    },
+    {
+        latin: "Pax deorum",
+        english: "Peace of the gods"
+    },
+    {
+        latin: "Hoc age",
+        english: "Do this (focus on the ritual)"
+    },
+    {
+        latin: "Sic faciendum est",
+        english: "Thus it must be done"
+    },
+    {
+        latin: "Bona pax",
+        english: "Good peace"
+    }
+];
 
 // DOM Elements
 const balanceElement = document.getElementById('balance');
@@ -9,16 +46,82 @@ const liquidElement = document.getElementById('liquid');
 const pourStreamElement = document.getElementById('pour-stream');
 const flameElement = document.getElementById('flame');
 const smokeElement = document.getElementById('smoke');
-const breadElement = document.getElementById('bread');
-const saltElement = document.getElementById('salt');
 const buyButton = document.getElementById('buy-btn');
 const modal = document.getElementById('buy-modal');
 const closeModal = document.querySelector('.close');
 const packButtons = document.querySelectorAll('.pack-btn');
+const soundToggle = document.getElementById('sound-toggle');
+const ambientSound = document.getElementById('ambient-sound');
+const shrineImage = document.getElementById('shrine-image');
+const latinText = document.getElementById('latin-text');
+const englishText = document.getElementById('english-text');
 
 // Initialize
 updateBalance();
 checkDailyBonus();
+loadSoundPreference();
+preloadImage();
+
+// Image Loading Optimization
+function preloadImage() {
+    if (shrineImage.complete) {
+        shrineImage.classList.add('loaded');
+    } else {
+        shrineImage.addEventListener('load', function() {
+            shrineImage.classList.add('loaded');
+        });
+        shrineImage.addEventListener('error', function() {
+            console.log('Error loading shrine image');
+        });
+    }
+}
+
+// Sound System
+function loadSoundPreference() {
+    const savedSound = localStorage.getItem('soundEnabled');
+    soundEnabled = savedSound === 'true';
+    updateSoundButton();
+}
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem('soundEnabled', soundEnabled);
+    updateSoundButton();
+    
+    if (soundEnabled) {
+        ambientSound.play().catch(e => {
+            console.log('Audio play failed:', e);
+        });
+    } else {
+        ambientSound.pause();
+    }
+}
+
+function updateSoundButton() {
+    if (soundEnabled) {
+        soundToggle.textContent = '🔊 Ambient Sound';
+        soundToggle.classList.add('active');
+    } else {
+        soundToggle.textContent = '🔇 Ambient Sound';
+        soundToggle.classList.remove('active');
+    }
+}
+
+// Quote System
+function displayRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * latinQuotes.length);
+    const quote = latinQuotes[randomIndex];
+    
+    latinText.textContent = quote.latin;
+    englishText.textContent = quote.english;
+    
+    // Animate the quote display
+    const quoteDisplay = document.getElementById('quote-display');
+    quoteDisplay.style.opacity = '0';
+    setTimeout(() => {
+        quoteDisplay.style.opacity = '1';
+    }, 300);
+}
 
 // Offering Buttons
 offeringButtons.forEach(button => {
@@ -41,6 +144,7 @@ function makeOffering(type, cost) {
     sesterces -= cost;
     updateBalance();
     saveGame();
+    displayRandomQuote();
     
     // Handle different offering types
     switch(type) {
@@ -74,24 +178,19 @@ function makeOffering(type, cost) {
 
 // Offering Animations
 function offerWine() {
-    // Reset and prepare
-    liquidElement.className = 'liquid';
-    pourStreamElement.className = 'pour-stream';
+    resetAnimations();
     
-    // Start pouring animation
     setTimeout(() => {
         pourStreamElement.classList.add('wine-pour');
         pourStreamElement.style.animation = 'pour 2s ease-in-out';
         pourStreamElement.style.opacity = '1';
     }, 300);
     
-    // Start filling bowl
     setTimeout(() => {
         liquidElement.classList.add('wine');
         liquidElement.style.height = '70%';
     }, 800);
     
-    // Reset
     setTimeout(() => {
         pourStreamElement.style.animation = '';
         pourStreamElement.style.opacity = '0';
@@ -100,11 +199,12 @@ function offerWine() {
     setTimeout(() => {
         liquidElement.style.height = '0%';
     }, 8000);
+    
+    showMessage('Wine offered to the Lares. May your household know joy.');
 }
 
 function offerWater() {
-    liquidElement.className = 'liquid';
-    pourStreamElement.className = 'pour-stream';
+    resetAnimations();
     
     setTimeout(() => {
         pourStreamElement.classList.add('water-pour');
@@ -125,6 +225,8 @@ function offerWater() {
     setTimeout(() => {
         liquidElement.style.height = '0%';
     }, 6000);
+    
+    showMessage('Pure water offered for cleansing and purification.');
 }
 
 function lightLamp() {
@@ -147,7 +249,6 @@ function lightLamp() {
 
 function offerIncense() {
     smokeElement.classList.remove('active');
-    // Force reflow
     void smokeElement.offsetWidth;
     smokeElement.classList.add('active');
     
@@ -155,31 +256,23 @@ function offerIncense() {
     
     setTimeout(() => {
         smokeElement.classList.remove('active');
-    }, 6000);
+    }, 5000);
 }
 
 function offerBread() {
-    breadElement.classList.remove('active');
-    void breadElement.offsetWidth;
-    breadElement.classList.add('active');
-    
     showMessage('Bread offering made. May your household never know hunger.');
-    
-    setTimeout(() => {
-        breadElement.classList.remove('active');
-    }, 3000);
 }
 
 function offerSalt() {
-    saltElement.classList.remove('active');
-    void saltElement.offsetWidth;
-    saltElement.classList.add('active');
-    
     showMessage('Salt offered for preservation and purity.');
-    
-    setTimeout(() => {
-        saltElement.classList.remove('active');
-    }, 3000);
+}
+
+function resetAnimations() {
+    liquidElement.className = 'liquid';
+    liquidElement.style.height = '0%';
+    pourStreamElement.className = 'pour-stream';
+    pourStreamElement.style.animation = '';
+    pourStreamElement.style.opacity = '0';
 }
 
 // Currency System
@@ -199,7 +292,6 @@ function saveGame() {
 
 // Message System
 function showMessage(message) {
-    // Create message element if it doesn't exist
     let messageEl = document.getElementById('message-toast');
     if (!messageEl) {
         messageEl = document.createElement('div');
@@ -255,7 +347,6 @@ packButtons.forEach(button => {
         const amount = parseInt(pack.dataset.amount);
         const price = parseFloat(pack.dataset.price);
         
-        // In a real implementation, this would connect to Stripe
         if (confirm(`Acquire ${amount} sacred sesterces for $${price}?`)) {
             sesterces += amount;
             updateBalance();
@@ -283,9 +374,8 @@ function checkDailyBonus() {
     }
 }
 
-// Roman date display (optional enhancement)
-function getRomanDate() {
-    const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return now.toLocaleDateString('en-US', options);
-}
+// Event Listeners
+soundToggle.addEventListener('click', toggleSound);
+
+// Display initial quote
+displayRandomQuote();
