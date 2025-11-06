@@ -26,76 +26,24 @@
             <div class="lararium-shrine">
                 <img src="aedicula.png" alt="Roman Lararium" class="aedicula" id="shrine-image">
                 
-                <!-- Animation Layer -->
+                <!-- Animation Areas -->
                 <div class="animation-layer">
-                    <!-- Wine Animation -->
-                    <div class="wine-animation" id="wine-animation">
-                        <div class="pour-stream" id="wine-pour-stream"></div>
-                        <div class="liquid" id="wine-liquid"></div>
+                    <div class="patera-animation" id="patera-animation">
+                        <div class="liquid" id="liquid"></div>
+                        <div class="pour-stream" id="pour-stream"></div>
                     </div>
                     
-                    <!-- Water Animation -->
-                    <div class="water-animation" id="water-animation">
-                        <div class="pour-stream" id="water-pour-stream"></div>
-                        <div class="liquid" id="water-liquid"></div>
-                    </div>
-                    
-                    <!-- Lamp Animation -->
-                    <div class="lamp-animation" id="lamp-animation">
+                    <div class="lucerna-animation" id="lucerna-animation">
                         <div class="flame" id="flame"></div>
                     </div>
                     
-                    <!-- Incense Animation -->
                     <div class="incense-animation" id="incense-animation">
                         <div class="smoke-effect" id="smoke"></div>
-                    </div>
-                    
-                    <!-- Bread Animation -->
-                    <div class="bread-animation" id="bread-animation">
-                        <div class="bread-icon">🥖</div>
-                    </div>
-                    
-                    <!-- Salt Animation -->
-                    <div class="salt-animation" id="salt-animation">
-                        <div class="salt-pile"></div>
-                    </div>
-                </div>
-
-                <!-- Visual Recipients Layer -->
-                <div class="recipients-layer">
-                    <div class="recipient-visual wine-recipient">
-                        <div class="recipient-bowl"></div>
-                        <div class="recipient-label">Patera</div>
-                    </div>
-                    
-                    <div class="recipient-visual water-recipient">
-                        <div class="recipient-bowl"></div>
-                        <div class="recipient-label">Patera</div>
-                    </div>
-                    
-                    <div class="recipient-visual lamp-recipient">
-                        <div class="recipient-lamp"></div>
-                        <div class="recipient-label">Lucerna</div>
-                    </div>
-                    
-                    <div class="recipient-visual incense-recipient">
-                        <div class="recipient-incense"></div>
-                        <div class="recipient-label">Turibulum</div>
-                    </div>
-                    
-                    <div class="recipient-visual bread-recipient">
-                        <div class="recipient-plate"></div>
-                        <div class="recipient-label">Patella</div>
-                    </div>
-                    
-                    <div class="recipient-visual salt-recipient">
-                        <div class="recipient-bowl-small"></div>
-                        <div class="recipient-label">Salinum</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Interactive Controls -->
+            <!-- Interactive Controls - SIMPLIFIED -->
             <div class="controls-panel">
                 <div class="currency-section">
                     <div class="currency-info">
@@ -110,54 +58,43 @@
                 
                 <div class="offerings-section">
                     <h3>Make Offerings to the Lares</h3>
-                    <div class="controllers-grid">
-                        <div class="controller-item">
-                            <button class="offering-btn" data-type="wine" data-cost="10">
-                                <span class="offering-icon">🍷</span>
-                                <span class="offering-name">Vinum</span>
-                                <span class="offering-cost">10 HS</span>
-                            </button>
-                        </div>
+                    <div class="offerings-grid">
+                        <!-- SIMPLIFIED: Just buttons with icons and names -->
+                        <button class="offering-btn" data-type="wine" data-cost="10">
+                            <span class="offering-icon">🍷</span>
+                            <span class="offering-name">Wine</span>
+                            <span class="offering-cost">10 HS</span>
+                        </button>
                         
-                        <div class="controller-item">
-                            <button class="offering-btn" data-type="water" data-cost="5">
-                                <span class="offering-icon">💧</span>
-                                <span class="offering-name">Aqua</span>
-                                <span class="offering-cost">5 HS</span>
-                            </button>
-                        </div>
+                        <button class="offering-btn" data-type="water" data-cost="5">
+                            <span class="offering-icon">💧</span>
+                            <span class="offering-name">Water</span>
+                            <span class="offering-cost">5 HS</span>
+                        </button>
                         
-                        <div class="controller-item">
-                            <button class="offering-btn" data-type="light" data-cost="15">
-                                <span class="offering-icon">🪔</span>
-                                <span class="offering-name">Ignis</span>
-                                <span class="offering-cost">15 HS</span>
-                            </button>
-                        </div>
+                        <button class="offering-btn" data-type="light" data-cost="15">
+                            <span class="offering-icon">🪔</span>
+                            <span class="offering-name">Light Lamp</span>
+                            <span class="offering-cost">15 HS</span>
+                        </button>
                         
-                        <div class="controller-item">
-                            <button class="offering-btn" data-type="incense" data-cost="20">
-                                <span class="offering-icon">🪷</span>
-                                <span class="offering-name">Tus</span>
-                                <span class="offering-cost">20 HS</span>
-                            </button>
-                        </div>
+                        <button class="offering-btn" data-type="incense" data-cost="20">
+                            <span class="offering-icon">🪷</span>
+                            <span class="offering-name">Incense</span>
+                            <span class="offering-cost">20 HS</span>
+                        </button>
                         
-                        <div class="controller-item">
-                            <button class="offering-btn" data-type="bread" data-cost="12">
-                                <span class="offering-icon">🥖</span>
-                                <span class="offering-name">Panis</span>
-                                <span class="offering-cost">12 HS</span>
-                            </button>
-                        </div>
+                        <button class="offering-btn" data-type="bread" data-cost="12">
+                            <span class="offering-icon">🥖</span>
+                            <span class="offering-name">Bread</span>
+                            <span class="offering-cost">12 HS</span>
+                        </button>
                         
-                        <div class="controller-item">
-                            <button class="offering-btn" data-type="salt" data-cost="8">
-                                <span class="offering-icon">⛰️</span>
-                                <span class="offering-name">Sal</span>
-                                <span class="offering-cost">8 HS</span>
-                            </button>
-                        </div>
+                        <button class="offering-btn" data-type="salt" data-cost="8">
+                            <span class="offering-icon">⛰️</span>
+                            <span class="offering-name">Salt</span>
+                            <span class="offering-cost">8 HS</span>
+                        </button>
                     </div>
                 </div>
             </div>
