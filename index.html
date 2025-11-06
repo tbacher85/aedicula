@@ -6,98 +6,139 @@
     <title>Digital Lararium - Roman Household Shrine</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text&display=swap" rel="stylesheet">
+    <link rel="preload" href="aedicula.png" as="image">
 </head>
 <body>
+    <audio id="ambient-sound" loop>
+        <source src="ambient.mp3" type="audio/mpeg">
+        <source src="ambient.ogg" type="audio/ogg">
+    </audio>
+
     <div class="container">
         <header class="header">
             <h1>Digital Lararium</h1>
             <p class="subtitle">Honor the Lares of your household</p>
+            <div class="sound-controls">
+                <button id="sound-toggle" class="sound-btn">🔇 Ambient Sound</button>
+            </div>
         </header>
 
-        <div class="lararium">
-            <!-- Background Aedicula -->
-            <img src="aedicula.png" alt="Roman Lararium" class="aedicula">
-            
-            <!-- Interactive Elements -->
-            <div class="patera" id="offering-bowl">
-                <div class="liquid" id="liquid"></div>
-                <div class="pour-stream" id="pour-stream"></div>
-            </div>
-            
-            <div class="lucerna" id="lamp">
-                <div class="flame" id="flame"></div>
-            </div>
-            
-            <div class="incense-smoke" id="smoke">
-                <img src="smoke.png" alt="Incense Smoke">
-            </div>
-            
-            <div class="bread-offering" id="bread">
-                <div class="bread-icon">🥖</div>
-            </div>
-            
-            <div class="salt-offering" id="salt">
-                <div class="salt-pile"></div>
-            </div>
+        <!-- Quote Display -->
+        <div id="quote-display" class="quote-display">
+            <p class="latin-quote" id="latin-text">Laribus familiaribus sacrum</p>
+            <p class="english-translation" id="english-text">Sacred to the family Lares</p>
         </div>
-        
-        <!-- Control Panel -->
-        <div class="controls">
-            <div class="currency-section">
-                <div class="currency-info">
-                    <h3>Sacred Sesterces</h3>
-                    <p class="currency-explanation">Ancient Roman currency for digital offerings</p>
-                </div>
-                <div class="currency-display">
-                    <span class="sesterces"><span id="balance">50</span> HS</span>
-                    <button id="buy-btn" class="buy-btn">Acquire More</button>
+
+        <div class="main-content">
+            <!-- Lararium Shrine -->
+            <div class="lararium-shrine">
+                <img src="aedicula.png" alt="Roman Lararium" class="aedicula" id="shrine-image">
+                
+                <!-- Animation Areas (Positioned over the shrine) -->
+                <div class="animation-layer">
+                    <div class="patera-animation" id="patera-animation">
+                        <div class="liquid" id="liquid"></div>
+                        <div class="pour-stream" id="pour-stream"></div>
+                    </div>
+                    
+                    <div class="lucerna-animation" id="lucerna-animation">
+                        <div class="flame" id="flame"></div>
+                    </div>
+                    
+                    <div class="incense-animation" id="incense-animation">
+                        <div class="smoke-effect" id="smoke"></div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="offerings-section">
-                <h3>Make Offerings</h3>
-                <div class="offerings-grid">
-                    <button class="offering-btn" data-type="wine" data-cost="10">
-                        <span class="offering-icon">🍷</span>
-                        <span class="offering-name">Vinum</span>
-                        <span class="offering-cost">10 HS</span>
-                    </button>
-                    
-                    <button class="offering-btn" data-type="water" data-cost="5">
-                        <span class="offering-icon">💧</span>
-                        <span class="offering-name">Aqua</span>
-                        <span class="offering-cost">5 HS</span>
-                    </button>
-                    
-                    <button class="offering-btn" data-type="light" data-cost="15">
-                        <span class="offering-icon">🪔</span>
-                        <span class="offering-name">Ignis</span>
-                        <span class="offering-cost">15 HS</span>
-                    </button>
-                    
-                    <button class="offering-btn" data-type="incense" data-cost="20">
-                        <span class="offering-icon">🪷</span>
-                        <span class="offering-name">Tus</span>
-                        <span class="offering-cost">20 HS</span>
-                    </button>
-                    
-                    <button class="offering-btn" data-type="bread" data-cost="12">
-                        <span class="offering-icon">🥖</span>
-                        <span class="offering-name">Panis</span>
-                        <span class="offering-cost">12 HS</span>
-                    </button>
-                    
-                    <button class="offering-btn" data-type="salt" data-cost="8">
-                        <span class="offering-icon">⛰️</span>
-                        <span class="offering-name">Sal</span>
-                        <span class="offering-cost">8 HS</span>
-                    </button>
+
+            <!-- Interactive Controls -->
+            <div class="controls-panel">
+                <div class="currency-section">
+                    <div class="currency-info">
+                        <h3>Sacred Sesterces <span class="currency-symbol">𐆘</span></h3>
+                        <p class="currency-explanation">Digital Roman currency for offerings</p>
+                    </div>
+                    <div class="currency-display">
+                        <span class="sesterces"><span id="balance">50</span> HS</span>
+                        <button id="buy-btn" class="buy-btn">Acquire More</button>
+                    </div>
+                </div>
+                
+                <div class="offerings-section">
+                    <h3>Make Offerings to the Lares</h3>
+                    <div class="offerings-grid">
+                        <div class="offering-item">
+                            <div class="offering-recipient" id="wine-recipient">
+                                <div class="recipient-icon">🍷</div>
+                                <div class="recipient-name">Patera</div>
+                            </div>
+                            <button class="offering-btn" data-type="wine" data-cost="10">
+                                <span class="offering-name">Vinum</span>
+                                <span class="offering-cost">10 HS</span>
+                            </button>
+                        </div>
+                        
+                        <div class="offering-item">
+                            <div class="offering-recipient" id="water-recipient">
+                                <div class="recipient-icon">💧</div>
+                                <div class="recipient-name">Patera</div>
+                            </div>
+                            <button class="offering-btn" data-type="water" data-cost="5">
+                                <span class="offering-name">Aqua</span>
+                                <span class="offering-cost">5 HS</span>
+                            </button>
+                        </div>
+                        
+                        <div class="offering-item">
+                            <div class="offering-recipient" id="lamp-recipient">
+                                <div class="recipient-icon">🪔</div>
+                                <div class="recipient-name">Lucerna</div>
+                            </div>
+                            <button class="offering-btn" data-type="light" data-cost="15">
+                                <span class="offering-name">Ignis</span>
+                                <span class="offering-cost">15 HS</span>
+                            </button>
+                        </div>
+                        
+                        <div class="offering-item">
+                            <div class="offering-recipient" id="incense-recipient">
+                                <div class="recipient-icon">🪷</div>
+                                <div class="recipient-name">Turibulum</div>
+                            </div>
+                            <button class="offering-btn" data-type="incense" data-cost="20">
+                                <span class="offering-name">Tus</span>
+                                <span class="offering-cost">20 HS</span>
+                            </button>
+                        </div>
+                        
+                        <div class="offering-item">
+                            <div class="offering-recipient" id="bread-recipient">
+                                <div class="recipient-icon">🥖</div>
+                                <div class="recipient-name">Patella</div>
+                            </div>
+                            <button class="offering-btn" data-type="bread" data-cost="12">
+                                <span class="offering-name">Panis</span>
+                                <span class="offering-cost">12 HS</span>
+                            </button>
+                        </div>
+                        
+                        <div class="offering-item">
+                            <div class="offering-recipient" id="salt-recipient">
+                                <div class="recipient-icon">⛰️</div>
+                                <div class="recipient-name">Salinum</div>
+                            </div>
+                            <button class="offering-btn" data-type="salt" data-cost="8">
+                                <span class="offering-name">Sal</span>
+                                <span class="offering-cost">8 HS</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer class="footer">
-            <p>May the Lares protect this household</p>
+            <p>Laribus familiaribus - May the household Lares protect this home</p>
         </footer>
     </div>
 
