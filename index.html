@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Lararium</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="lararium">
+            <!-- Background Aedicula -->
+            <img src="aedicula.png" alt="Roman Lararium" class="aedicula">
+            
+            <!-- Interactive Elements -->
+            <div class="patera" id="offering-bowl">
+                <div class="liquid" id="liquid"></div>
+            </div>
+            
+            <div class="lucerna" id="lamp">
+                <div class="flame" id="flame"></div>
+            </div>
+            
+            <div class="incense-smoke" id="smoke"></div>
+            <div class="fruit-offering" id="fruit"></div>
+            <div class="salt-offering" id="salt"></div>
+        </div>
+        
+        <!-- Control Panel -->
+        <div class="controls">
+            <div class="currency-display">
+                <span class="sesterces">Sesterces: <span id="balance">50</span> HS</span>
+                <button id="buy-btn" class="buy-btn">Buy More Sesterces</button>
+            </div>
+            
+            <div class="offerings-grid">
+                <button class="offering-btn" data-type="wine" data-cost="10">
+                    <span class="emoji">🍷</span>
+                    <span class="name">Wine</span>
+                    <span class="cost">10 HS</span>
+                </button>
+                
+                <button class="offering-btn" data-type="water" data-cost="5">
+                    <span class="emoji">💧</span>
+                    <span class="name">Water</span>
+                    <span class="cost">5 HS</span>
+                </button>
+                
+                <button class="offering-btn" data-type="light" data-cost="15">
+                    <span class="emoji">🕯️</span>
+                    <span class="name">Light Lamp</span>
+                    <span class="cost">15 HS</span>
+                </button>
+                
+                <button class="offering-btn" data-type="incense" data-cost="20">
+                    <span class="emoji">🌿</span>
+                    <span class="name">Incense</span>
+                    <span class="cost">20 HS</span>
+                </button>
+                
+                <button class="offering-btn" data-type="fruit" data-cost="12">
+                    <span class="emoji">🍎</span>
+                    <span class="name">Fruit</span>
+                    <span class="cost">12 HS</span>
+                </button>
+                
+                <button class="offering-btn" data-type="salt" data-cost="8">
+                    <span class="emoji">🧂</span>
+                    <span class="name">Salt</span>
+                    <span class="cost">8 HS</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buy Modal -->
+    <div id="buy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Purchase Sesterces</h3>
+            <div class="currency-packs">
+                <div class="pack" data-amount="100" data-price="1.99">
+                    <h4>100 HS</h4>
+                    <p>$1.99</p>
+                    <button class="pack-btn">Purchase</button>
+                </div>
+                <div class="pack" data-amount="300" data-price="4.99">
+                    <h4>300 HS</h4>
+                    <p>$4.99</p>
+                    <button class="pack-btn">Purchase</button>
+                </div>
+                <div class="pack" data-amount="500" data-price="7.99">
+                    <h4>500 HS</h4>
+                    <p>$7.99</p>
+                    <button class="pack-btn">Purchase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
