@@ -13,7 +13,6 @@
         <header class="header">
             <h1>Digital Lararium</h1>
             <p class="subtitle">Honor the Lares of your household</p>
-            <!-- Sound controls removed -->
         </header>
 
         <!-- Quote Display -->
@@ -27,19 +26,38 @@
             <div class="lararium-shrine">
                 <img src="aedicula.png" alt="Roman Lararium" class="aedicula" id="shrine-image">
                 
-                <!-- Animation Areas (Positioned over the shrine) -->
+                <!-- Animation Layer -->
                 <div class="animation-layer">
-                    <div class="patera-animation" id="patera-animation">
-                        <div class="liquid" id="liquid"></div>
-                        <div class="pour-stream" id="pour-stream"></div>
+                    <!-- Wine Animation -->
+                    <div class="wine-animation" id="wine-animation">
+                        <div class="pour-stream" id="wine-pour-stream"></div>
+                        <div class="liquid" id="wine-liquid"></div>
                     </div>
                     
-                    <div class="lucerna-animation" id="lucerna-animation">
+                    <!-- Water Animation -->
+                    <div class="water-animation" id="water-animation">
+                        <div class="pour-stream" id="water-pour-stream"></div>
+                        <div class="liquid" id="water-liquid"></div>
+                    </div>
+                    
+                    <!-- Lamp Animation -->
+                    <div class="lamp-animation" id="lamp-animation">
                         <div class="flame" id="flame"></div>
                     </div>
                     
+                    <!-- Incense Animation -->
                     <div class="incense-animation" id="incense-animation">
                         <div class="smoke-effect" id="smoke"></div>
+                    </div>
+                    
+                    <!-- Bread Animation -->
+                    <div class="bread-animation" id="bread-animation">
+                        <div class="bread-icon">🥖</div>
+                    </div>
+                    
+                    <!-- Salt Animation -->
+                    <div class="salt-animation" id="salt-animation">
+                        <div class="salt-pile"></div>
                     </div>
                 </div>
             </div>
@@ -59,9 +77,9 @@
                 
                 <div class="offerings-section">
                     <h3>Make Offerings to the Lares</h3>
-                    <div class="offerings-grid">
-                        <div class="offering-item">
-                            <div class="offering-recipient" id="wine-recipient">
+                    <div class="controllers-grid">
+                        <div class="controller-item">
+                            <div class="controller-recipient" id="wine-controller">
                                 <div class="recipient-icon">🍷</div>
                                 <div class="recipient-name">Patera</div>
                             </div>
@@ -71,8 +89,8 @@
                             </button>
                         </div>
                         
-                        <div class="offering-item">
-                            <div class="offering-recipient" id="water-recipient">
+                        <div class="controller-item">
+                            <div class="controller-recipient" id="water-controller">
                                 <div class="recipient-icon">💧</div>
                                 <div class="recipient-name">Patera</div>
                             </div>
@@ -82,8 +100,8 @@
                             </button>
                         </div>
                         
-                        <div class="offering-item">
-                            <div class="offering-recipient" id="lamp-recipient">
+                        <div class="controller-item">
+                            <div class="controller-recipient" id="lamp-controller">
                                 <div class="recipient-icon">🪔</div>
                                 <div class="recipient-name">Lucerna</div>
                             </div>
@@ -93,8 +111,8 @@
                             </button>
                         </div>
                         
-                        <div class="offering-item">
-                            <div class="offering-recipient" id="incense-recipient">
+                        <div class="controller-item">
+                            <div class="controller-recipient" id="incense-controller">
                                 <div class="recipient-icon">🪷</div>
                                 <div class="recipient-name">Turibulum</div>
                             </div>
@@ -104,8 +122,8 @@
                             </button>
                         </div>
                         
-                        <div class="offering-item">
-                            <div class="offering-recipient" id="bread-recipient">
+                        <div class="controller-item">
+                            <div class="controller-recipient" id="bread-controller">
                                 <div class="recipient-icon">🥖</div>
                                 <div class="recipient-name">Patella</div>
                             </div>
@@ -115,8 +133,8 @@
                             </button>
                         </div>
                         
-                        <div class="offering-item">
-                            <div class="offering-recipient" id="salt-recipient">
+                        <div class="controller-item">
+                            <div class="controller-recipient" id="salt-controller">
                                 <div class="recipient-icon">⛰️</div>
                                 <div class="recipient-name">Salinum</div>
                             </div>
