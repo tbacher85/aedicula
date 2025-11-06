@@ -41,10 +41,14 @@ const latinQuotes = [
 // DOM Elements
 const balanceElement = document.getElementById('balance');
 const offeringButtons = document.querySelectorAll('.offering-btn');
-const liquidElement = document.getElementById('liquid');
-const pourStreamElement = document.getElementById('pour-stream');
+const wineLiquid = document.getElementById('wine-liquid');
+const waterLiquid = document.getElementById('water-liquid');
+const winePourStream = document.getElementById('wine-pour-stream');
+const waterPourStream = document.getElementById('water-pour-stream');
 const flameElement = document.getElementById('flame');
 const smokeElement = document.getElementById('smoke');
+const breadAnimation = document.getElementById('bread-animation');
+const saltAnimation = document.getElementById('salt-animation');
 const buyButton = document.getElementById('buy-btn');
 const modal = document.getElementById('buy-modal');
 const closeModal = document.querySelector('.close');
@@ -143,52 +147,48 @@ function makeOffering(type, cost) {
 
 // Offering Animations
 function offerWine() {
-    resetAnimations();
+    resetWineAnimations();
     
     setTimeout(() => {
-        pourStreamElement.classList.add('wine-pour');
-        pourStreamElement.style.animation = 'pour 2s ease-in-out';
-        pourStreamElement.style.opacity = '1';
+        winePourStream.style.animation = 'pour 2s ease-in-out';
+        winePourStream.style.opacity = '1';
     }, 300);
     
     setTimeout(() => {
-        liquidElement.classList.add('wine');
-        liquidElement.style.height = '70%';
+        wineLiquid.style.height = '70%';
     }, 800);
     
     setTimeout(() => {
-        pourStreamElement.style.animation = '';
-        pourStreamElement.style.opacity = '0';
+        winePourStream.style.animation = '';
+        winePourStream.style.opacity = '0';
     }, 2300);
     
     setTimeout(() => {
-        liquidElement.style.height = '0%';
+        wineLiquid.style.height = '0%';
     }, 8000);
     
     showMessage('Wine offered to the Lares. May your household know joy.');
 }
 
 function offerWater() {
-    resetAnimations();
+    resetWaterAnimations();
     
     setTimeout(() => {
-        pourStreamElement.classList.add('water-pour');
-        pourStreamElement.style.animation = 'pour 1.5s ease-in-out';
-        pourStreamElement.style.opacity = '1';
+        waterPourStream.style.animation = 'pour 1.5s ease-in-out';
+        waterPourStream.style.opacity = '1';
     }, 300);
     
     setTimeout(() => {
-        liquidElement.classList.add('water');
-        liquidElement.style.height = '60%';
+        waterLiquid.style.height = '60%';
     }, 600);
     
     setTimeout(() => {
-        pourStreamElement.style.animation = '';
-        pourStreamElement.style.opacity = '0';
+        waterPourStream.style.animation = '';
+        waterPourStream.style.opacity = '0';
     }, 1800);
     
     setTimeout(() => {
-        liquidElement.style.height = '0%';
+        waterLiquid.style.height = '0%';
     }, 6000);
     
     showMessage('Pure water offered for cleansing and purification.');
@@ -225,19 +225,39 @@ function offerIncense() {
 }
 
 function offerBread() {
+    breadAnimation.classList.remove('active');
+    void breadAnimation.offsetWidth;
+    breadAnimation.classList.add('active');
+    
     showMessage('Bread offering made. May your household never know hunger.');
+    
+    setTimeout(() => {
+        breadAnimation.classList.remove('active');
+    }, 3000);
 }
 
 function offerSalt() {
+    saltAnimation.classList.remove('active');
+    void saltAnimation.offsetWidth;
+    saltAnimation.classList.add('active');
+    
     showMessage('Salt offered for preservation and purity.');
+    
+    setTimeout(() => {
+        saltAnimation.classList.remove('active');
+    }, 3000);
 }
 
-function resetAnimations() {
-    liquidElement.className = 'liquid';
-    liquidElement.style.height = '0%';
-    pourStreamElement.className = 'pour-stream';
-    pourStreamElement.style.animation = '';
-    pourStreamElement.style.opacity = '0';
+function resetWineAnimations() {
+    wineLiquid.style.height = '0%';
+    winePourStream.style.animation = '';
+    winePourStream.style.opacity = '0';
+}
+
+function resetWaterAnimations() {
+    waterLiquid.style.height = '0%';
+    waterPourStream.style.animation = '';
+    waterPourStream.style.opacity = '0';
 }
 
 // Currency System
