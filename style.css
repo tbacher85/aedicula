@@ -1,0 +1,359 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #8B4513, #D2691E);
+    color: #F5DEB3;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.lararium {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+    border: 8px solid #8B4513;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: #2F4F4F;
+}
+
+.aedicula {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Interactive Elements Positioning */
+.patera {
+    position: absolute;
+    width: 80px;
+    height: 60px;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.liquid {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    transition: height 2s ease-in-out;
+    border-radius: 50% 50% 0 0;
+}
+
+.liquid.wine {
+    background: linear-gradient(to top, #8B0000, #722f37);
+}
+
+.liquid.water {
+    background: linear-gradient(to top, #1E90FF, #00BFFF);
+}
+
+.lucerna {
+    position: absolute;
+    width: 40px;
+    height: 60px;
+    top: 350px;
+    right: 180px;
+    z-index: 2;
+}
+
+.flame {
+    position: absolute;
+    width: 20px;
+    height: 30px;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse, #FFD700, #FF8C00, transparent 70%);
+    border-radius: 50% 50% 20% 20%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.flame.lit {
+    opacity: 1;
+    animation: flicker 3s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 100% { 
+        transform: translateX(-50%) scale(1); 
+        opacity: 0.8; 
+    }
+    25% { 
+        transform: translateX(-48%) scale(1.1); 
+        opacity: 1; 
+    }
+    50% { 
+        transform: translateX(-52%) scale(0.9); 
+        opacity: 0.7; 
+    }
+    75% { 
+        transform: translateX(-50%) scale(1.05); 
+        opacity: 0.9; 
+    }
+}
+
+.incense-smoke {
+    position: absolute;
+    width: 40px;
+    height: 100px;
+    top: 200px;
+    left: 180px;
+    opacity: 0;
+    z-index: 2;
+}
+
+.incense-smoke.active {
+    opacity: 1;
+    animation: smokeRise 4s ease-out;
+}
+
+@keyframes smokeRise {
+    0% { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+    50% { 
+        transform: translateY(-50px) scale(1.2); 
+        opacity: 0.5; 
+    }
+    100% { 
+        transform: translateY(-100px) scale(1.5); 
+        opacity: 0; 
+    }
+}
+
+.fruit-offering, .salt-offering {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    bottom: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    z-index: 3;
+    font-size: 40px;
+    text-align: center;
+}
+
+.fruit-offering.active, .salt-offering.active {
+    opacity: 1;
+    animation: offeringAppear 2s ease-in-out;
+}
+
+@keyframes offeringAppear {
+    0% { 
+        transform: translateX(-50%) scale(0); 
+        opacity: 0; 
+    }
+    50% { 
+        transform: translateX(-50%) scale(1.2); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: translateX(-50%) scale(1); 
+        opacity: 1; 
+    }
+}
+
+/* Controls */
+.controls {
+    background: rgba(139, 69, 19, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    border: 3px solid #DEB887;
+}
+
+.currency-display {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #8B4513;
+    border-radius: 8px;
+    border: 2px solid #DEB887;
+}
+
+.sesterces {
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.buy-btn {
+    background: #FFD700;
+    color: #8B4513;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.buy-btn:hover {
+    background: #FFC400;
+}
+
+.offerings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.offering-btn {
+    background: linear-gradient(135deg, #DEB887, #F5DEB3);
+    color: #8B4513;
+    border: 3px solid #8B4513;
+    padding: 15px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+}
+
+.offering-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #F5DEB3, #DEB887);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.offering-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.emoji {
+    font-size: 24px;
+}
+
+.name {
+    font-size: 14px;
+}
+
+.cost {
+    font-size: 12px;
+    color: #654321;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #8B4513, #A0522D);
+    margin: 10% auto;
+    padding: 30px;
+    border: 5px solid #DEB887;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 500px;
+    color: #F5DEB3;
+    position: relative;
+}
+
+.close {
+    color: #F5DEB3;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close:hover {
+    color: #FFD700;
+}
+
+.currency-packs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pack {
+    background: rgba(222, 184, 135, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid #8B4513;
+    color: #8B4513;
+}
+
+.pack h4 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.pack p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.pack-btn {
+    background: #8B4513;
+    color: #F5DEB3;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.pack-btn:hover {
+    background: #654321;
+}
+
+/* Responsive */
+@media (max-width: 650px) {
+    .lararium {
+        width: 100%;
+        height: auto;
+        max-width: 400px;
+        max-height: 400px;
+    }
+    
+    .offerings-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .currency-packs {
+        grid-template-columns: 1fr;
+    }
+}
