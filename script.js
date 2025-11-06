@@ -6,9 +6,10 @@ let lampLit = false;
 const balanceElement = document.getElementById('balance');
 const offeringButtons = document.querySelectorAll('.offering-btn');
 const liquidElement = document.getElementById('liquid');
+const pourStreamElement = document.getElementById('pour-stream');
 const flameElement = document.getElementById('flame');
 const smokeElement = document.getElementById('smoke');
-const fruitElement = document.getElementById('fruit');
+const breadElement = document.getElementById('bread');
 const saltElement = document.getElementById('salt');
 const buyButton = document.getElementById('buy-btn');
 const modal = document.getElementById('buy-modal');
@@ -17,6 +18,7 @@ const packButtons = document.querySelectorAll('.pack-btn');
 
 // Initialize
 updateBalance();
+checkDailyBonus();
 
 // Offering Buttons
 offeringButtons.forEach(button => {
@@ -31,7 +33,7 @@ offeringButtons.forEach(button => {
 // Make Offering
 function makeOffering(type, cost) {
     if (sesterces < cost) {
-        alert('Not enough sesterces! Purchase more to make this offering.');
+        showMessage('Insufficient sesterces for this offering. Acquire more to continue your devotions.');
         return;
     }
     
@@ -54,8 +56,8 @@ function makeOffering(type, cost) {
         case 'incense':
             offerIncense();
             break;
-        case 'fruit':
-            offerFruit();
+        case 'bread':
+            offerBread();
             break;
         case 'salt':
             offerSalt();
@@ -72,59 +74,108 @@ function makeOffering(type, cost) {
 
 // Offering Animations
 function offerWine() {
-    liquidElement.className = 'liquid wine';
-    liquidElement.style.height = '70%';
+    // Reset and prepare
+    liquidElement.className = 'liquid';
+    pourStreamElement.className = 'pour-stream';
+    
+    // Start pouring animation
+    setTimeout(() => {
+        pourStreamElement.classList.add('wine-pour');
+        pourStreamElement.style.animation = 'pour 2s ease-in-out';
+        pourStreamElement.style.opacity = '1';
+    }, 300);
+    
+    // Start filling bowl
+    setTimeout(() => {
+        liquidElement.classList.add('wine');
+        liquidElement.style.height = '70%';
+    }, 800);
+    
+    // Reset
+    setTimeout(() => {
+        pourStreamElement.style.animation = '';
+        pourStreamElement.style.opacity = '0';
+    }, 2300);
     
     setTimeout(() => {
         liquidElement.style.height = '0%';
-    }, 5000);
+    }, 8000);
 }
 
 function offerWater() {
-    liquidElement.className = 'liquid water';
-    liquidElement.style.height = '60%';
+    liquidElement.className = 'liquid';
+    pourStreamElement.className = 'pour-stream';
+    
+    setTimeout(() => {
+        pourStreamElement.classList.add('water-pour');
+        pourStreamElement.style.animation = 'pour 1.5s ease-in-out';
+        pourStreamElement.style.opacity = '1';
+    }, 300);
+    
+    setTimeout(() => {
+        liquidElement.classList.add('water');
+        liquidElement.style.height = '60%';
+    }, 600);
+    
+    setTimeout(() => {
+        pourStreamElement.style.animation = '';
+        pourStreamElement.style.opacity = '0';
+    }, 1800);
     
     setTimeout(() => {
         liquidElement.style.height = '0%';
-    }, 4000);
+    }, 6000);
 }
 
 function lightLamp() {
     if (!lampLit) {
         flameElement.classList.add('lit');
         lampLit = true;
+        showMessage('The sacred flame is lit. May it illuminate your household.');
         
-        // Lamp stays lit for 1 hour (or until page refresh for demo)
+        // Lamp stays lit for 1 hour
         setTimeout(() => {
             flameElement.classList.remove('lit');
             lampLit = false;
-        }, 3600000); // 1 hour
+            showMessage('The sacred flame has faded. Relight to continue its protection.');
+        }, 3600000);
     } else {
         // Extend lamp time
-        flameElement.classList.add('lit');
+        showMessage('The sacred flame burns brighter with your continued devotion.');
     }
 }
 
 function offerIncense() {
+    smokeElement.classList.remove('active');
+    // Force reflow
+    void smokeElement.offsetWidth;
     smokeElement.classList.add('active');
+    
+    showMessage('The sweet smoke of incense rises to the heavens.');
     
     setTimeout(() => {
         smokeElement.classList.remove('active');
-    }, 4000);
+    }, 6000);
 }
 
-function offerFruit() {
-    fruitElement.textContent = '🍎';
-    fruitElement.classList.add('active');
+function offerBread() {
+    breadElement.classList.remove('active');
+    void breadElement.offsetWidth;
+    breadElement.classList.add('active');
+    
+    showMessage('Bread offering made. May your household never know hunger.');
     
     setTimeout(() => {
-        fruitElement.classList.remove('active');
+        breadElement.classList.remove('active');
     }, 3000);
 }
 
 function offerSalt() {
-    saltElement.textContent = '🧂';
+    saltElement.classList.remove('active');
+    void saltElement.offsetWidth;
     saltElement.classList.add('active');
+    
+    showMessage('Salt offered for preservation and purity.');
     
     setTimeout(() => {
         saltElement.classList.remove('active');
@@ -144,6 +195,42 @@ function updateBalance() {
 
 function saveGame() {
     localStorage.setItem('sesterces', sesterces.toString());
+}
+
+// Message System
+function showMessage(message) {
+    // Create message element if it doesn't exist
+    let messageEl = document.getElementById('message-toast');
+    if (!messageEl) {
+        messageEl = document.createElement('div');
+        messageEl.id = 'message-toast';
+        messageEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(90, 70, 40, 0.95);
+            color: #e8d8b8;
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: 2px solid #d4af37;
+            font-family: 'Crimson Text', serif;
+            z-index: 1001;
+            text-align: center;
+            max-width: 80%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+        `;
+        document.body.appendChild(messageEl);
+    }
+    
+    messageEl.textContent = message;
+    messageEl.style.opacity = '1';
+    
+    setTimeout(() => {
+        messageEl.style.opacity = '0';
+    }, 3000);
 }
 
 // Modal Functions
@@ -168,34 +255,37 @@ packButtons.forEach(button => {
         const amount = parseInt(pack.dataset.amount);
         const price = parseFloat(pack.dataset.price);
         
-        // In a real implementation, this would connect to a payment processor
-        // For demo purposes, we'll just add the currency
-        if (confirm(`Purchase ${amount} HS for $${price}?`)) {
+        // In a real implementation, this would connect to Stripe
+        if (confirm(`Acquire ${amount} sacred sesterces for $${price}?`)) {
             sesterces += amount;
             updateBalance();
             saveGame();
             modal.style.display = 'none';
-            alert(`Thank you! ${amount} HS have been added to your balance.`);
+            showMessage(`${amount} sacred sesterces acquired! May your devotions be plentiful.`);
         }
     });
 });
 
-// Daily Bonus (simplified)
+// Daily Bonus
 function checkDailyBonus() {
     const lastVisit = localStorage.getItem('lastVisit');
     const today = new Date().toDateString();
     
     if (lastVisit !== today) {
-        sesterces += 10; // Daily login bonus
+        sesterces += 10;
         updateBalance();
         saveGame();
         localStorage.setItem('lastVisit', today);
         
-        if (lastVisit) { // Only show alert if not first visit
-            alert('Daily login bonus: 10 HS added!');
+        if (lastVisit) {
+            showMessage('Daily devotion bonus: 10 sacred sesterces acquired!');
         }
     }
 }
 
-// Check for daily bonus on page load
-checkDailyBonus();
+// Roman date display (optional enhancement)
+function getRomanDate() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return now.toLocaleDateString('en-US', options);
+}
